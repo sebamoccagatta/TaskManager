@@ -3,11 +3,17 @@ import dotenv from "dotenv";
 import { LocalStorage } from "node-localstorage";
 import bodyParser from "body-parser";
 import { Task } from "./models/task.interface";
+import cors from "cors";
 
 dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(bodyParser.json());
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
 /* instance and initialize local Storage */
 const tasksLocal = new LocalStorage('./scratch');
@@ -22,7 +28,20 @@ app.get("/api/tasks", (req, res) => {
 
     const parsedTasks = JSON.parse(tasks || "{}");
 
-    return res.status(200).json(parsedTasks);
+    return res.status(200).json(Object.values(parsedTasks));
+});
+
+app.get("/api/tasks/:id", (req, res) => {
+    const { id } = req.params;
+    if (!id) {
+        return res.status(400).json({ message: "Id is required" });
+    }
+    const tasks = JSON.parse(tasksLocal.getItem("tasks") || "{}");
+    const task = tasks[id];
+    if (!task) {
+        return res.status(404).json({ message: "Task not found" });
+    }
+    return res.status(200).json(task);
 });
 
 app.post("/api/tasks", (req, res) => {
