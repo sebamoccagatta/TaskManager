@@ -1,0 +1,15 @@
+{
+  "name": "task-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Sebastian Moccagatta",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  },
+  "scripts": {
+    "start": "concurrently \"npm --prefix client start\" \"npm --prefix server start\""
+  },
+  "keywords": []
+}
