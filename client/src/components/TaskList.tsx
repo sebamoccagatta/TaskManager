@@ -3,6 +3,8 @@ import type { Task } from "../types";
 import {useState} from "react";
 
 import { getTasks } from "../services/TaskService";
+import Filter from "./Filter";
+import type { FilterType } from "../types";
 
 export default function TaskList() {
     
@@ -87,6 +89,39 @@ export default function TaskList() {
     return (
         <div className="container mx-auto p-4">
             <h1 className="text-2xl text-center font-bold mb-4">Task List</h1>
+
+            <div className="mb-4">
+                <Filter 
+                    onFilterChange={(filters: FilterType[]) => {
+                        if (!filters || filters.length === 0) {
+                            fetchTasks(); // Reset to original tasks if filter is empty
+                            return;
+                        }
+                        // Example: filter by title and/or status if FilterType has those fields
+                        const filteredTasks = tasks.filter(task => 
+                            filters.every(filter => {
+                                if (filter.id === "searchFilter") {
+                                    return (
+                                        typeof task.title === "string" &&
+                                        typeof filter.value === "string" &&
+                                        task.title.toLowerCase().includes(filter.value.toLowerCase())
+                                    );
+                                }
+                                if (filter.id === "completedFilter") {
+                                    return task.completed === filter.value;
+                                }
+                                return true;
+                            })
+                        );
+                        if (filteredTasks.length > 0) {
+                            setTasks(filteredTasks);
+                        }
+                        else {
+                            fetchTasks(); // Reset to original tasks if filter is empty
+                        }
+                    }} 
+                />
+            </div>
             
             <table className="min-w-full bg-white border border-gray-200">
                 <thead>

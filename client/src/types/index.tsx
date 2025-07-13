@@ -5,3 +5,5 @@ export type Task = {
     completed: boolean;
     createdAt: string;
 }
+
+export type FilterType = { id: string; value: string | boolean };
