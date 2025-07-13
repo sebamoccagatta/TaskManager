@@ -37,6 +37,16 @@ Task Manager es una aplicación para gestionar tareas y retos personales. Permit
 
 Accede a la aplicación y comienza a agregar tus tareas y retos. Organiza tu día y sigue tu progreso.
 
+## Capturas
+- Home
+ ![Captura](captures/taskManagerHome.png)
+- Create
+![Captura](captures/taskManagerCreate.png)
+- Update
+![Captura](captures/taskManagerEdit.png)
+- Detail
+![Captura](captures/taskManagerDetail.png)
+
 ## Contribución
 
 Las contribuciones son bienvenidas. Por favor, abre un issue o envía un pull request.
